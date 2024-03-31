@@ -10,7 +10,9 @@ const router = Router();
 api.use(corsMiddleware);
 
 router.get("/", (req, res) => {
-  res.send("Hello User. API started => Try : /hello or /data");
+  res.send(
+    "Hello User. API started => Try : /test/testdbcon or /hello or /data"
+  );
 });
 
 router.get("/hello", (req, res) => res.send("Hello User!"));
