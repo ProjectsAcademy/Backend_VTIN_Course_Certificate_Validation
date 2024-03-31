@@ -1,0 +1,21 @@
+[functions]
+  external_node_modules = ["express"]
+  node_bundler = "esbuild"
+
+[[redirects]]
+  force = true
+  from = "/test/*"  # Updated rule for the "test" function
+  status = 200
+  to = "/.netlify/functions/test/:splat"
+
+[[redirects]]
+  force = true
+  from = "/studentData/*"  # Updated rule for the "test" function
+  status = 200
+  to = "/.netlify/functions/studentData/:splat"
+
+[[redirects]]
+  force = true
+  from = "/*"  # Updated rule for the root path
+  status = 200
+  to = "/.netlify/functions/api/:splat"
