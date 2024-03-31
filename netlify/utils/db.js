@@ -23,10 +23,6 @@ async function connectToDB() {
     throw err;
   }
 }
-function getStuInfoCollection() {
-  const db = client.db(dbName);
-  return db.collection("studentInfo");
-}
 
 async function testDatabaseConnection() {
   try {
@@ -51,59 +47,10 @@ async function closeDB() {
   }
 }
 
-// function getStuInfoCollection() {
-//   const db = client.db(dbName);
-//   return db.collection("studentInfo");
-// }
-
-// async function testDatabaseConnection() {
-//   try {
-//     const db = await connectToDB();
-
-//     if (db) {
-//       try {
-//         const StuInfoCollection = getStuInfoCollection();
-
-//         const randomDocument = await StuInfoCollection.aggregate([
-//           { $sample: { size: 1 } },
-//         ]).toArray();
-//         console.log(randomDocument);
-//         if (randomDocument.length > 0) {
-//           console.log("Database collection connection Succesfull");
-//           return randomDocument;
-//         } else {
-//           console.log("Error during database's collection connection::");
-//         }
-//       } catch (error) {
-//         console.error("Error during database's collection connection:", error);
-//       } finally {
-//         // Close the database connection
-//         await closeDB();
-//       }
-//     } else {
-//       console.log("Unable to connect to the database.");
-//     }
-//   } catch (error) {
-//     console.error("Error during database connection:", error);
-//   }
-// }
-
-// async function saveStudentData(data) {
-//   try {
-//     console.log("saveStudentData func get called")
-//     console.log("Data from saveStudenData func : " , data)
-//     // Create a new student instance using the provided data
-//     const student = new Student(data);
-//     console.log("student schema called" , student)
-//     // Save the student data to the database
-//     const savedStudent = await student.save();
-//     console.log("Student data saved successfully:", savedStudent);
-//     return savedStudent; // Return the saved student data if needed
-//   } catch (error) {
-//     console.error("Error saving student data:", error);
-//     throw error;
-//   }
-// }
+function getStuInfoCollection() {
+  const db = client.db(dbName);
+  return db.collection("studentInfo");
+}
 
 async function saveStudentData(data) {
   try {
@@ -140,7 +87,19 @@ async function saveStudentData(data) {
   }
 }
 
+async function getStudentDataById(studentId) {
+  try {
+    const collection = getStuInfoCollection();
+    const studentData = await collection.findOne({ stu_id: studentId });
+    return studentData;
+  } catch (error) {
+    console.error("Error fetching student data by ID:", error);
+    throw error;
+  }
+}
+
 module.exports = {
   testDatabaseConnection,
   saveStudentData,
+  getStudentDataById,
 };
